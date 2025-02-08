@@ -1,0 +1,20 @@
+{
+  "name": "privacybrowser",
+  "version": "0.1.0",
+  "description": "Minimalist privacy-focused browser built on Electron",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "privacy",
+    "browser",
+    "electron",
+    "tracker-blocking"
+  ],
+  "author": "NotAzie <mazinullah317@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}

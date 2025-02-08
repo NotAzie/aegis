@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+package-lock.json.bak
+yarn-error.log*
+
+# Build and package outputs
+dist/
+out/
+build/
+*.exe
+*.dmg
+*.zip
+*.tar.gz
+
+# Electron and OS cache / user data
+Cache/
+GPUCache/
+Cookies/
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment and local configs
+.env
+.env.local
+userData/
+*.backup
