@@ -57,3 +57,14 @@ app.on('window-all-closed', () => {
 
 // Navigation event handler stub
 app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+
+function loadSeedBlocklist() {
+  const p = path.join(__dirname, 'blocklists', 'trackers.txt');
+  if (fs.existsSync(p)) {
+    fs.readFileSync(p, 'utf8').split('\n').forEach(l => {
+      const t = l.trim().toLowerCase();
+      if (t && !t.startsWith('#')) TRACKER_DOMAINS.add(t);
+    });
+  }
+}
+loadSeedBlocklist();
