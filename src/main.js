@@ -68,3 +68,11 @@ function loadSeedBlocklist() {
   }
 }
 loadSeedBlocklist();
+
+function normaliseInput(input) {
+  const t = input.trim();
+  if (!t) return 'https://duckduckgo.com';
+  if (/^https?:\/\//i.test(t)) return t;
+  if (!t.includes(' ') && t.includes('.')) return 'https://' + t;
+  return 'https://duckduckgo.com/?q=' + encodeURIComponent(t);
+}
