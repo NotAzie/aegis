@@ -76,3 +76,7 @@ function normaliseInput(input) {
   if (!t.includes(' ') && t.includes('.')) return 'https://' + t;
   return 'https://duckduckgo.com/?q=' + encodeURIComponent(t);
 }
+
+// Window sizing bounds
+const MIN_WINDOW_WIDTH = 600;
+const MIN_WINDOW_HEIGHT = 400;
