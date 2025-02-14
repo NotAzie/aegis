@@ -80,3 +80,6 @@ function normaliseInput(input) {
 // Window sizing bounds
 const MIN_WINDOW_WIDTH = 600;
 const MIN_WINDOW_HEIGHT = 400;
+
+// Anti-white flash on launch
+// mainWindow.setBackgroundColor('#121212');
