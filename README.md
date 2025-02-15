@@ -13,3 +13,6 @@ A lightweight experimental desktop browser built with Electron that stops web tr
 npm install
 npm start
 ```
+
+### Tracker Blocking Rationale
+Eliminating third-party tracking cookies, pixels, and beacons directly at the network interception layer.
