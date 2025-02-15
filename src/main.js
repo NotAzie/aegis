@@ -85,3 +85,5 @@ const MIN_WINDOW_HEIGHT = 400;
 // mainWindow.setBackgroundColor('#121212');
 
 function getBlockedStats() { return { blockedCount }; }
+
+function safeGoBack(webContents) { if (webContents && webContents.canGoBack()) webContents.goBack(); }
