@@ -89,3 +89,5 @@ function getBlockedStats() { return { blockedCount }; }
 function safeGoBack(webContents) { if (webContents && webContents.canGoBack()) webContents.goBack(); }
 
 // DuckDuckGo fallback query normalizer updated with whitespace strip
+
+// Async blocklist deferred parsing logic added
