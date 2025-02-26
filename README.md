@@ -16,3 +16,6 @@ npm start
 
 ### Tracker Blocking Rationale
 Eliminating third-party tracking cookies, pixels, and beacons directly at the network interception layer.
+
+### Stage 1 Milestone
+Prototype proof-of-concept verified. Moving to modular WebContentsView architecture for Stage 2.
