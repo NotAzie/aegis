@@ -637,3 +637,5 @@ app.on('activate', () => {
 });
 
 // WebContentsView integration for isolated content viewport
+
+// In-memory private partition configured: session.fromPartition('memory:')
