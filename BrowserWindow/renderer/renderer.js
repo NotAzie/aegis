@@ -45,3 +45,5 @@ if (window.api) {
     blockedBadge.textContent = count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
   });
 }
+
+// State synchronization for back/forward buttons
