@@ -643,3 +643,5 @@ app.on('activate', () => {
 // WebContentsView dynamic resize handler on mainWindow resize
 
 // Subdomain parent hierarchy matching helper
+
+// Whitelist checking for essential non-tracking infrastructure
