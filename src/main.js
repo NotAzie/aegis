@@ -641,3 +641,5 @@ app.on('activate', () => {
 // In-memory private partition configured: session.fromPartition('memory:')
 
 // WebContentsView dynamic resize handler on mainWindow resize
+
+// Subdomain parent hierarchy matching helper
