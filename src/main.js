@@ -647,3 +647,5 @@ app.on('activate', () => {
 // Whitelist checking for essential non-tracking infrastructure
 
 // stripTrackingParameters implementation
+
+// Preserving non-tracking query parameters
