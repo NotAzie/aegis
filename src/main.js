@@ -645,3 +645,5 @@ app.on('activate', () => {
 // Subdomain parent hierarchy matching helper
 
 // Whitelist checking for essential non-tracking infrastructure
+
+// stripTrackingParameters implementation
