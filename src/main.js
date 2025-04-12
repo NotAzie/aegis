@@ -651,3 +651,5 @@ app.on('activate', () => {
 // Preserving non-tracking query parameters
 
 // Custom window control IPC handlers: minimize, maximize, close
+
+// Desktop User-Agent pool rotation
