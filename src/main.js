@@ -653,3 +653,5 @@ app.on('activate', () => {
 // Custom window control IPC handlers: minimize, maximize, close
 
 // Desktop User-Agent pool rotation
+
+// Privacy permission request handler denies all by default
