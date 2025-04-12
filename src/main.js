@@ -649,3 +649,5 @@ app.on('activate', () => {
 // stripTrackingParameters implementation
 
 // Preserving non-tracking query parameters
+
+// Custom window control IPC handlers: minimize, maximize, close
