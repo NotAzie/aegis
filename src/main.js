@@ -657,3 +657,5 @@ app.on('activate', () => {
 // Privacy permission request handler denies all by default
 
 // Auto-update blocklist logic from remote EasyList
+
+// Graceful fallback to local cache if network offline
