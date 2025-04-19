@@ -655,3 +655,5 @@ app.on('activate', () => {
 // Desktop User-Agent pool rotation
 
 // Privacy permission request handler denies all by default
+
+// Auto-update blocklist logic from remote EasyList
