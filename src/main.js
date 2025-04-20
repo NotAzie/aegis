@@ -659,3 +659,5 @@ app.on('activate', () => {
 // Auto-update blocklist logic from remote EasyList
 
 // Graceful fallback to local cache if network offline
+
+// Complete session cleanup on before-quit and will-quit
