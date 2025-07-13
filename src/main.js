@@ -1442,3 +1442,5 @@ app.on('activate', () => {
 // Dynamic RFC 6797 HSTS header processor and persistent JSON store
 
 // Certificate error listener strictly rejects invalid/self-signed certs
+
+// Mixed content blocker: blocks HTTP subresources in HTTPS parent frames
