@@ -1444,3 +1444,5 @@ app.on('activate', () => {
 // Certificate error listener strictly rejects invalid/self-signed certs
 
 // Mixed content blocker: blocks HTTP subresources in HTTPS parent frames
+
+// Insecure form blocker: prevents HTTP POST submissions from HTTPS origins
