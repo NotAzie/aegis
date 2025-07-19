@@ -473,3 +473,5 @@
 })();
 
 // WebRTC RTCPeerConnection and getUserMedia complete lockdown
+
+// Canvas fingerprint noise injection on getImageData and toDataURL
