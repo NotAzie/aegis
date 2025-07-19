@@ -471,3 +471,5 @@
   window.addEventListener('DOMContentLoaded', observeDuckDuckGo);
   window.addEventListener('load', observeDuckDuckGo);
 })();
+
+// WebRTC RTCPeerConnection and getUserMedia complete lockdown
