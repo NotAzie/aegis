@@ -477,3 +477,5 @@
 // Canvas fingerprint noise injection on getImageData and toDataURL
 
 // AudioContext getChannelData sample jittering
+
+// Navigator hardwareConcurrency (4) and deviceMemory (8) normalization
