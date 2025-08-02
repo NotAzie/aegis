@@ -485,3 +485,5 @@
 // Font enumeration restriction via document.fonts.check
 
 // Timezone normalized to UTC and Battery API disabled
+
+// Cloudflare challenge bypass guard to prevent bot loop verification stalls
