@@ -483,3 +483,5 @@
 // Screen resolution normalization (1920x1080x24)
 
 // Font enumeration restriction via document.fonts.check
+
+// Timezone normalized to UTC and Battery API disabled
