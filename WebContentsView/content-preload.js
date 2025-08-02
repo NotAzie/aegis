@@ -481,3 +481,5 @@
 // Navigator hardwareConcurrency (4) and deviceMemory (8) normalization
 
 // Screen resolution normalization (1920x1080x24)
+
+// Font enumeration restriction via document.fonts.check
