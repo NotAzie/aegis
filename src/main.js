@@ -1448,3 +1448,5 @@ app.on('activate', () => {
 // Insecure form blocker: prevents HTTP POST submissions from HTTPS origins
 
 // Cosmetic filtering CSS stylesheet injection
+
+// Pruning tracking headers (ETag, X-Forwarded-For) on response
