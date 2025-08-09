@@ -1446,3 +1446,5 @@ app.on('activate', () => {
 // Mixed content blocker: blocks HTTP subresources in HTTPS parent frames
 
 // Insecure form blocker: prevents HTTP POST submissions from HTTPS origins
+
+// Cosmetic filtering CSS stylesheet injection
