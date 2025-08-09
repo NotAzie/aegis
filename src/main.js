@@ -1450,3 +1450,5 @@ app.on('activate', () => {
 // Cosmetic filtering CSS stylesheet injection
 
 // Pruning tracking headers (ETag, X-Forwarded-For) on response
+
+// IPC handler for dynamic SOCKS5/HTTP proxy configuration
