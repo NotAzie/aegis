@@ -1452,3 +1452,5 @@ app.on('activate', () => {
 // Pruning tracking headers (ETag, X-Forwarded-For) on response
 
 // IPC handler for dynamic SOCKS5/HTTP proxy configuration
+
+// Reinforced context isolation and sandbox flags on all web preferences
