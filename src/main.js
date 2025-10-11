@@ -1463,3 +1463,5 @@ app.on('activate', () => {
 // Reinforced context isolation and sandbox flags on all web preferences
 
 // Session destroyed garbage collection hooks
+
+// Optimized IPC payload batching and serialization
