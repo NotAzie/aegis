@@ -1,3 +1,7 @@
+
+// ─── High-Performance O(1) Domain Engine ─────────────────────────────────────
+const { FastMatcher } = require('./engine/fast-matcher');
+const FAST_MATCHER = new FastMatcher(25000);
 /**
  * main.js — PrivacyBrowser Main Process with Strict HTTPS Enforcement
  *
@@ -864,7 +868,10 @@ async function createWindow() {
   loadHstsRules();
 
   // Load advanced blocklists and whitelist
-  AD_BLOCK_DOMAINS = loadJsonSet(AD_BLOCKLIST_PATH, [
+  AD_BLOCK_DOMAINS = loadJsonSet(AD_BLOCKLIST_PATH,
+  FAST_MATCHER.loadDomainList(Array.from(AD_BLOCK_DOMAINS), 'ad');
+  FAST_MATCHER.loadDomainList(Array.from(TRACKER_BLOCK_DOMAINS), 'tracker');
+  //  [
     'doubleclick.net', 'adservice.google.com', 'googlesyndication.com', 'ads.twitter.com', 'ads.facebook.com', 'adroll.com', 'smartadserver.com', 'ads.yahoo.com'
   ]);
   TRACKER_BLOCK_DOMAINS = loadJsonSet(TRACKER_BLOCKLIST_PATH, [
