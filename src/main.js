@@ -1461,3 +1461,5 @@ app.on('activate', () => {
 // IPC handler for dynamic SOCKS5/HTTP proxy configuration
 
 // Reinforced context isolation and sandbox flags on all web preferences
+
+// Session destroyed garbage collection hooks
