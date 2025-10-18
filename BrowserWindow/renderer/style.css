@@ -292,3 +292,5 @@ button:disabled {
   padding: 2px 6px;
   border-radius: 4px;
 }
+
+/* Micro-interactions: Cubic-bezier timing for high-DPI buttery smooth motion */
