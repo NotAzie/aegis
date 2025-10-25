@@ -95,3 +95,5 @@ if (window.api) {
     popoverCount.textContent = count.toLocaleString();
   });
 }
+
+// Global keyboard navigation bindings (Ctrl+L, Ctrl+R, Alt+Arrows, Esc)
