@@ -97,3 +97,5 @@ if (window.api) {
 }
 
 // Global keyboard navigation bindings (Ctrl+L, Ctrl+R, Alt+Arrows, Esc)
+
+// Certificate alert and security modal dispatchers
