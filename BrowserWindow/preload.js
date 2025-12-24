@@ -1,7 +1,3 @@
-/**
- * BrowserWindow Preload Script (Toolbar Chrome)
- * Exposes secure contextBridge IPC methods to the browser UI.
- */
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
@@ -12,28 +8,14 @@ contextBridge.exposeInMainWorld('api', {
   minimize: () => ipcRenderer.send('window-minimize'),
   maximize: () => ipcRenderer.send('window-maximize'),
   close: () => ipcRenderer.send('window-close'),
-  getUa: () => ipcRenderer.send('get-ua'),
-  setProxy: (config) => ipcRenderer.send('set-proxy', config),
 
   onNavState: (cb) => {
     ipcRenderer.on('nav-state', (_e, state) => cb(state));
   },
+  onNexusTelemetry: (cb) => {
+    ipcRenderer.on('nexus-telemetry', (_e, telemetry) => cb(telemetry));
+  },
   onBlockedCount: (cb) => {
     ipcRenderer.on('blocked-count', (_e, count) => cb(count));
-  },
-  onProxyState: (cb) => {
-    ipcRenderer.on('proxy-state', (_e, state) => cb(state));
-  },
-  onSecurityWarning: (cb) => {
-    ipcRenderer.on('security-warning', (_e, warning) => cb(warning));
-  },
-  onCertificateError: (cb) => {
-    ipcRenderer.on('certificate-error', (_e, err) => cb(err));
-  },
-  onWebrtcMode: (cb) => {
-    ipcRenderer.on('webrtc-mode', (_e, mode) => cb(mode));
-  },
-  onUaInfo: (cb) => {
-    ipcRenderer.on('ua-info', (_e, ua) => cb(ua));
   }
 });
