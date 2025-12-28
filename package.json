@@ -1,24 +1,25 @@
 {
   "name": "privacybrowser",
-  "version": "1.0.0",
-  "description": "Enterprise-grade hardened desktop browser with strict HTTPS enforcement, O(1) tracker blocking, and zero-storage footprint.",
+  "version": "2.0.0",
+  "description": "Next-Gen Quantum Privacy Browser — O(1) AegisHyperTrie, Shannon Entropy Threat Detection, and Synthetic Ghost Cohorts",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "node tests/url-normalizer.test.js && node tests/blocklist.test.js && node tests/hsts.test.js && node tests/radix-trie.test.js",
-    "bench": "node benchmarks/matcher-benchmark.js",
+    "test": "node tests/url-normalizer.test.js && node tests/hyper-trie.test.js && node tests/entropy-shield.test.js && node tests/ghost-engine.test.js && node tests/nexus-integration.test.js",
+    "bench": "node benchmarks/hyper-trie-benchmark.js && node benchmarks/entropy-benchmark.js",
+    "bench:hyper": "node benchmarks/hyper-trie-benchmark.js",
+    "bench:entropy": "node benchmarks/entropy-benchmark.js",
     "dist": "electron-builder --dir"
   },
   "keywords": [
-    "privacy",
-    "browser",
-    "electron",
-    "adblock",
-    "tracker-blocking",
+    "privacy-browser",
+    "aegis",
+    "bloom-trie",
+    "shannon-entropy",
+    "synthetic-cohorts",
     "anti-fingerprinting",
-    "hsts",
-    "webrtc-shield",
-    "radix-trie"
+    "zero-day-adblock",
+    "quantum-privacy"
   ],
   "author": "NotAzie <mazinullah317@gmail.com>",
   "license": "MIT",

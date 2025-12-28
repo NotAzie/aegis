@@ -3,16 +3,23 @@ const btnBack = document.getElementById('btn-back');
 const btnFwd = document.getElementById('btn-forward');
 const btnReload = document.getElementById('btn-reload');
 const btnClear = document.getElementById('btn-clear-url');
-const shieldBtn = document.getElementById('shield-button');
-const shieldPopover = document.getElementById('shield-popover');
+
+const radarBtn = document.getElementById('radar-toggle-btn');
+const radarHud = document.getElementById('radar-hud');
 const badgeCount = document.getElementById('blocked-count-badge');
-const popoverCount = document.getElementById('popover-blocked-count');
+const statTotal = document.getElementById('stat-total-blocked');
+const statEntropy = document.getElementById('stat-entropy-blocked');
+const hudLog = document.getElementById('hud-recent-log');
 
-const btnMin = document.getElementById('btn-minimize');
-const btnMax = document.getElementById('btn-maximize');
-const btnClose = document.getElementById('btn-close');
+const canvas = document.getElementById('radar-canvas');
+const ctx = canvas ? canvas.getContext('2d') : null;
 
-// Omnibox submit
+// Window controls
+document.getElementById('btn-minimize').addEventListener('click', () => window.api && window.api.minimize());
+document.getElementById('btn-maximize').addEventListener('click', () => window.api && window.api.maximize());
+document.getElementById('btn-close').addEventListener('click', () => window.api && window.api.close());
+
+// Omnibox
 urlBar.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     const val = urlBar.value.trim();
@@ -20,8 +27,6 @@ urlBar.addEventListener('keydown', (e) => {
       window.api.navigate(val);
       urlBar.blur();
     }
-  } else if (e.key === 'Escape') {
-    urlBar.blur();
   }
 });
 
@@ -35,47 +40,72 @@ btnClear.addEventListener('click', () => {
   urlBar.focus();
 });
 
-// Navigation buttons
 btnBack.addEventListener('click', () => window.api && window.api.goBack());
 btnFwd.addEventListener('click', () => window.api && window.api.goForward());
 btnReload.addEventListener('click', () => window.api && window.api.reload());
 
-// Window controls
-btnMin.addEventListener('click', () => window.api && window.api.minimize());
-btnMax.addEventListener('click', () => window.api && window.api.maximize());
-btnClose.addEventListener('click', () => window.api && window.api.close());
-
-// Toggle Shield Popover
-shieldBtn.addEventListener('click', (e) => {
+radarBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  shieldPopover.classList.toggle('hidden');
+  radarHud.classList.toggle('hidden');
 });
 
 document.addEventListener('click', (e) => {
-  if (!shieldPopover.contains(e.target) && !shieldBtn.contains(e.target)) {
-    shieldPopover.classList.add('hidden');
+  if (!radarHud.contains(e.target) && !radarBtn.contains(e.target)) {
+    radarHud.classList.add('hidden');
   }
 });
 
-// Keyboard shortcuts
-window.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
-    e.preventDefault();
-    urlBar.focus();
-    urlBar.select();
-  } else if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
-    e.preventDefault();
-    if (window.api) window.api.reload();
-  } else if (e.altKey && e.key === 'ArrowLeft') {
-    e.preventDefault();
-    if (window.api) window.api.goBack();
-  } else if (e.altKey && e.key === 'ArrowRight') {
-    e.preventDefault();
-    if (window.api) window.api.goForward();
-  }
-});
+// Particles for Radar Canvas
+const particles = [];
+for (let i = 0; i < 24; i++) {
+  particles.push({
+    x: Math.random() * (canvas ? canvas.width : 340),
+    y: Math.random() * (canvas ? canvas.height : 120),
+    vx: (Math.random() - 0.5) * 0.8,
+    vy: (Math.random() - 0.5) * 0.8,
+    radius: Math.random() * 2 + 1,
+    alpha: Math.random() * 0.8 + 0.2
+  });
+}
 
-// IPC listeners
+function renderRadar() {
+  if (!ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw grid scan line
+  const time = performance.now() * 0.001;
+  const scanX = ((time * 60) % canvas.width);
+
+  ctx.strokeStyle = 'rgba(6, 182, 212, 0.15)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(scanX, 0);
+  ctx.lineTo(scanX, canvas.height);
+  ctx.stroke();
+
+  // Draw and update particles
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.fillStyle = `rgba(6, 182, 212, ${p.alpha})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  requestAnimationFrame(renderRadar);
+}
+
+if (ctx) requestAnimationFrame(renderRadar);
+
+// IPC Listener
 if (window.api) {
   window.api.onNavState((state) => {
     if (state.url && document.activeElement !== urlBar) {
@@ -84,18 +114,14 @@ if (window.api) {
     }
     btnBack.disabled = !state.canGoBack;
     btnFwd.disabled = !state.canGoFwd;
-    if (state.title) {
-      document.title = state.title + ' — PrivacyBrowser';
+  });
+
+  window.api.onNexusTelemetry((telemetry) => {
+    badgeCount.textContent = telemetry.blockedCount;
+    statTotal.textContent = telemetry.blockedCount;
+    statEntropy.textContent = telemetry.entropyThreats;
+    if (telemetry.recentBlockedReason) {
+      hudLog.textContent = telemetry.recentBlockedReason;
     }
   });
-
-  window.api.onBlockedCount((count) => {
-    const formatted = count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
-    badgeCount.textContent = formatted;
-    popoverCount.textContent = count.toLocaleString();
-  });
 }
-
-// Global keyboard navigation bindings (Ctrl+L, Ctrl+R, Alt+Arrows, Esc)
-
-// Certificate alert and security modal dispatchers
