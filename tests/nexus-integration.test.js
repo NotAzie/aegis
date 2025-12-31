@@ -27,4 +27,4 @@ const persona = ghost.resolvePersona('https://en.wikipedia.org');
 assert(persona.renderer !== undefined, 'Persona must provide valid renderer');
 assert(persona.screen.width >= 1728, 'Persona screen must meet standard specs');
 
-console.log('✓ Nexus V2 Subsystem Integration Verified 100% operational!');
+console.log('[PASS] Nexus V2 Subsystem Integration Verified 100% operational!');

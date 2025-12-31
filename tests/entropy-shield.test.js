@@ -30,4 +30,4 @@ assert.strictEqual(uuidTrack.suspicious, true, 'UUID tracking token must be flag
 const base64Track = shield.inspect('https://analytics.com/log?payload=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xyz123');
 assert.strictEqual(base64Track.suspicious, true, 'Base64 telemetry digest must be flagged');
 
-console.log('✓ All EntropyShield heuristic assertions passed with zero defects!');
+console.log('[PASS] All EntropyShield heuristic assertions passed with zero defects!');

@@ -10,7 +10,7 @@ bitset.add(999);
 assert.strictEqual(bitset.has(42), true);
 assert.strictEqual(bitset.has(999), true);
 assert.strictEqual(bitset.has(100), false);
-console.log('✓ Bitset operations verified');
+console.log('[PASS] Bitset operations verified');
 
 // 2. HyperTrie verification
 const trie = new AegisHyperTrie();
@@ -33,4 +33,4 @@ assert.strictEqual(trie.matches('wikipedia.org'), false);
 assert.strictEqual(trie.matches('github.com'), false);
 assert.strictEqual(trie.matches('notdoubleclick.net'), false);
 
-console.log('✓ All AegisHyperTrie assertions passed with zero defects!');
+console.log('[PASS] All AegisHyperTrie assertions passed with zero defects!');

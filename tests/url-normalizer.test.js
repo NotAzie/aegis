@@ -24,4 +24,4 @@ function stripTrackingParameters(urlString) {
 
 const test1 = 'https://example.com/?utm_source=twitter&fbclid=123&page=1';
 assert.strictEqual(stripTrackingParameters(test1), 'https://example.com/?page=1');
-console.log('✓ Query parameter sanitizer test passed.');
+console.log('[PASS] Query parameter sanitizer test passed.');

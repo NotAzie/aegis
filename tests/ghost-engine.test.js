@@ -23,4 +23,4 @@ GOLDEN_COHORTS.forEach(c => {
   assert(c.screen.width >= 1728, 'Screen width must reflect high-DPI standard');
 });
 
-console.log('✓ All GhostEngine cohort assertions passed with zero defects!');
+console.log('[PASS] All GhostEngine cohort assertions passed with zero defects!');

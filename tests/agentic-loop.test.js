@@ -17,7 +17,7 @@ agent.processEvent({
   assert.strictEqual(decision.actions.length, 2);
   assert.strictEqual(toolbox.isIsolated('https://telemetry-vector.biz'), true);
   assert(toolbox.honeyTokens.has('https://telemetry-vector.biz'));
-  console.log('✓ Hostile probe ReAct countermeasure verified');
+  console.log('[PASS] Hostile probe ReAct countermeasure verified');
 
   // 2. High-entropy zero-day scenario
   return agent.processEvent({
@@ -28,6 +28,6 @@ agent.processEvent({
 }).then(decision => {
   assert.strictEqual(decision.actions.length, 1);
   assert(toolbox.poisonedVectors.has('https://c8f93c0b1.adnetwork.io'));
-  console.log('✓ Zero-day poison vector dispatch verified');
-  console.log('✓ All AegisAgent reasoning tests passed with zero defects!');
+  console.log('[PASS] Zero-day poison vector dispatch verified');
+  console.log('[PASS] All AegisAgent reasoning tests passed with zero defects!');
 });

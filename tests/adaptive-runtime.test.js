@@ -27,4 +27,4 @@ assert.strictEqual(runtime.metrics.healedEvents, 1);
 const mode = runtime.evaluateRuntimeStrategy();
 assert(['HYPER_DRIVE', 'ADAPTIVE_BALANCED', 'CONSERVATIVE'].includes(mode));
 
-console.log('✓ All AdaptiveRuntime self-healing tests passed with zero defects!');
+console.log('[PASS] All AdaptiveRuntime self-healing tests passed with zero defects!');
