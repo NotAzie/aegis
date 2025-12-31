@@ -16,7 +16,7 @@ const { AdaptiveRuntime } = require('../meta/adaptive-runtime');
 const { AegisAgent } = require('../agent/aegis-agent');
 
 const TOOLBAR_HEIGHT = 52;
-const DEFAULT_START_URL = 'file://' + path.join(app.getAppPath(), 'src', 'start.html').replace(/\\/g, '/');
+const DEFAULT_START_URL = 'file://' + path.join(app.getAppPath(), 'src', 'ui', 'start', 'start.html').replace(/\\/g, '/');
 
 class Nexus {
   constructor() {
@@ -161,14 +161,14 @@ class Nexus {
       titleBarStyle: 'hidden',
       trafficLightPosition: { x: 14, y: 16 },
       webPreferences: {
-        preload: path.join(app.getAppPath(), 'BrowserWindow', 'preload.js'),
+        preload: path.join(app.getAppPath(), 'src', 'ui', 'chrome', 'preload.js'),
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: true,
       },
     });
 
-    this.mainWindow.loadFile(path.join(app.getAppPath(), 'BrowserWindow', 'renderer', 'index.html'));
+    this.mainWindow.loadFile(path.join(app.getAppPath(), 'src', 'ui', 'chrome', 'renderer', 'index.html'));
 
     this.webView = new WebContentsView({
       webPreferences: {
@@ -176,7 +176,7 @@ class Nexus {
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: true,
-        preload: path.join(app.getAppPath(), 'WebContentsView', 'content-preload.js'),
+        preload: path.join(app.getAppPath(), 'src', 'ui', 'content', 'content-preload.js'),
         webSecurity: true,
       },
     });
