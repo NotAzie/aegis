@@ -1,5 +1,6 @@
 /**
- * PrivacyBrowser Type Definitions
+ * Aegis Platform TypeScript Definitions
+ * Master Release v1.0.0
  */
 
 export interface NavState {
@@ -10,15 +11,44 @@ export interface NavState {
   title?: string;
 }
 
-export interface ProxyConfig {
-  type: 'socks5' | 'http';
-  host: string;
-  port: number;
+export interface NexusTelemetry {
+  blockedCount: number;
+  entropyThreats: number;
+  recentBlockedReason?: string;
+  adaptiveMode: 'HYPER_DRIVE' | 'ADAPTIVE_BALANCED' | 'CONSERVATIVE';
 }
 
-export interface SecurityWarning {
-  type: 'insecure-form' | 'mixed-content' | 'cert-error';
-  url: string;
+export interface GhostPersona {
+  id: string;
+  renderer: string;
+  vendor: string;
+  platform: string;
+  hardwareConcurrency: number;
+  deviceMemory: number;
+  screen: {
+    width: number;
+    height: number;
+    availWidth: number;
+    availHeight: number;
+    colorDepth: number;
+    pixelDepth: number;
+    dpr: number;
+  };
+  canvasSeed: number;
+  audioOffset: number;
+}
+
+export interface EntropyVerdict {
+  suspicious: boolean;
+  score: number;
+  reason: string | null;
+}
+
+export interface ShieldVerdict {
+  action: 'ALLOW' | 'BLOCK';
+  reason?: string;
+  entropy?: number;
+  fallback?: boolean;
 }
 
 export interface ElectronBrowserAPI {
@@ -29,15 +59,9 @@ export interface ElectronBrowserAPI {
   minimize(): void;
   maximize(): void;
   close(): void;
-  getUa(): void;
-  setProxy(config: ProxyConfig | null): void;
   onNavState(cb: (state: NavState) => void): void;
+  onNexusTelemetry(cb: (telemetry: NexusTelemetry) => void): void;
   onBlockedCount(cb: (count: number) => void): void;
-  onProxyState(cb: (state: { active: boolean; rules?: string }) => void): void;
-  onSecurityWarning(cb: (warning: SecurityWarning) => void): void;
-  onCertificateError(cb: (err: any) => void): void;
-  onWebrtcMode(cb: (mode: string) => void): void;
-  onUaInfo(cb: (ua: string) => void): void;
 }
 
 declare global {

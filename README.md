@@ -1,7 +1,8 @@
 # Aegis Platform: Autonomous Web Sovereignty Infrastructure
 
-[![CI Verification](https://github.com/NotAzie/privacybrowser/actions/workflows/ci.yml/badge.svg)](https://github.com/NotAzie/privacybrowser/actions)
+[![CI Verification](https://github.com/NotAzie/aegis/actions/workflows/ci.yml/badge.svg)](https://github.com/NotAzie/aegis/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Security Policy](https://img.shields.io/badge/Security-Enforced-green.svg)](SECURITY.md)
 [![Protocol Specification](https://img.shields.io/badge/Specification-v1.0.0-blue)](docs/SPECIFICATION.md)
 
 Aegis is an enterprise-grade foundational engine and client runtime designed for zero-knowledge web execution, sub-microsecond traffic interception, and client-side anti-fingerprinting. It replaces legacy list-based filtering with probabilistic Bloom-Trie lookup matrices, real-time Shannon entropy heuristics, and cryptographically verified synthetic hardware cohort simulation.
@@ -77,8 +78,8 @@ All WebGL parameters, canvas rasterizations, audio oscillator buffers, and syste
 ### 3.1 Local Development & Execution
 Clone the repository and install production dependencies:
 ```bash
-git clone https://github.com/NotAzie/privacybrowser.git
-cd privacybrowser
+git clone https://github.com/NotAzie/aegis.git
+cd aegis
 npm install
 ```
 
@@ -151,6 +152,13 @@ Empirical evaluations across 1,000,000 continuous executions:
 
 ---
 
-## 6. License
+## 6. Community & Security Policies
+
+- [Security Policy](SECURITY.md) — Responsible vulnerability disclosure protocol and mathematical invariants.
+- [Contribution Guidelines](CONTRIBUTING.md) — Engineering standards, latency acceptance criteria, and PR review workflow.
+
+---
+
+## 7. License
 
 Licensed under the MIT License. Copyright (c) 2025 NotAzie.

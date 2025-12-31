@@ -1,31 +1,39 @@
 {
   "name": "@aegis-protocol/core",
-  "version": "3.0.0",
-  "description": "Aegis Singularity Protocol — Universal Autonomous Web Sovereignty Infrastructure & SDK",
+  "version": "1.0.0",
+  "description": "Aegis Platform — Autonomous Web Sovereignty Infrastructure & Kernel Runtime",
   "main": "src/protocol/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NotAzie/aegis.git"
+  },
+  "homepage": "https://github.com/NotAzie/aegis#readme",
+  "bugs": {
+    "url": "https://github.com/NotAzie/aegis/issues"
+  },
   "exports": {
     ".": "./src/protocol/index.js",
     "./nexus": "./src/core/nexus.js",
+    "./network": "./src/network/doh-resolver.js",
+    "./storage": "./src/storage/ephemeral-vault.js",
     "./engine": "./src/engine/hyper-trie.js",
-    "./heuristic": "./src/engine/entropy-shield.js",
-    "./ghost": "./src/engine/ghost-engine.js"
+    "./agent": "./src/agent/aegis-agent.js"
   },
   "scripts": {
     "start": "electron src/main.js",
-    "test": "node tests/url-normalizer.test.js && node tests/hyper-trie.test.js && node tests/entropy-shield.test.js && node tests/ghost-engine.test.js && node tests/nexus-integration.test.js && node tests/adaptive-runtime.test.js && node tests/agentic-loop.test.js",
+    "test": "node scripts/verify.js",
     "bench": "node benchmarks/hyper-trie-benchmark.js && node benchmarks/entropy-benchmark.js && node benchmarks/adaptive-benchmark.js",
     "dist": "electron-builder --dir"
   },
   "keywords": [
-    "aegis-protocol",
-    "autonomous-agent",
-    "react-loop",
-    "adaptive-runtime",
-    "bloom-trie",
+    "aegis-platform",
+    "autonomous-security",
+    "dns-over-https",
+    "ephemeral-vault",
     "shannon-entropy",
-    "stealth-browser",
-    "puppeteer-stealth",
-    "zero-day-adblock"
+    "bloom-trie",
+    "stealth-driver",
+    "zero-knowledge"
   ],
   "author": "NotAzie <mazinullah317@gmail.com>",
   "license": "MIT",

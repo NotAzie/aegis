@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Unit & Security Tests
+    name: Subsystem Verification (${{ matrix.os }} / Node ${{ matrix.node-version }})
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Run Test Suites
-        run: |
-          node tests/url-normalizer.test.js
-          node tests/blocklist.test.js
-          node tests/hsts.test.js
+      - name: Execute Automated Verification Gate
+        run: npm test
+
+      - name: Execute Micro-Benchmark Latency Gate
+        run: npm run bench
