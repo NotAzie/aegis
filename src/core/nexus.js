@@ -1,3 +1,4 @@
+const { PredictivePipeline } = require('../engine/predictive-pipeline');
 /**
  * NexusCore V3 — Singularity Engine Architecture
  *
@@ -25,6 +26,7 @@ class Nexus {
     this.ghostEngine = new GhostEngine();
     this.adaptiveRuntime = new AdaptiveRuntime();
     this.agent = new AegisAgent();
+    this.pipeline = new PredictivePipeline(null, this.ghostEngine, null);
 
     this.mainWindow = null;
     this.webView = null;
