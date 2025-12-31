@@ -30,4 +30,4 @@ assert(rule1.expiry > Date.now());
 const rule2 = parseHstsHeader('max-age=0');
 assert.strictEqual(rule2, null, 'max-age=0 should not produce an active rule');
 
-console.log('✓ All HSTS logic tests passed successfully!');
+console.log('[PASS] All HSTS logic tests passed successfully!');

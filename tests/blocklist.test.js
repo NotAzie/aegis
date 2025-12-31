@@ -39,4 +39,4 @@ assert(isDomainBlocked('ssl.google-analytics.com', [trackerSet]), 'ssl.google-an
 assert(!isDomainBlocked('wikipedia.org', [adSet, trackerSet]), 'wikipedia.org must NOT be blocked');
 assert(!isDomainBlocked('github.com', [adSet, trackerSet]), 'github.com must NOT be blocked');
 
-console.log('✓ All Blocklist unit tests passed successfully!');
+console.log('[PASS] All Blocklist unit tests passed successfully!');

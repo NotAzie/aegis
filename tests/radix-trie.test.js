@@ -33,4 +33,4 @@ assert.strictEqual(matcher.isBlocked('microsoft.com'), false);
 // Hit cache verification
 assert.strictEqual(matcher.isBlocked('telemetry.microsoft.com'), true);
 
-console.log('✓ All Trie & Matcher tests passed successfully!');
+console.log('[PASS] All Trie & Matcher tests passed successfully!');

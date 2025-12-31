@@ -1,43 +1,52 @@
-# 🏛️ PrivacyBrowser Architecture Whitepaper
+# Architecture Whitepaper: Aegis Platform Specification
 
-## 1. System Overview
-PrivacyBrowser is an enterprise-grade hardened desktop browser engineered to eliminate web telemetry, fingerprinting, and unencrypted transmission vectors.
+## 1. System Topology
+
+The Aegis architecture decouples request ingestion, algorithmic evaluation, and presentation layers into strictly isolated boundaries.
 
 ```
-+-------------------------------------------------------------------------+
-|                          MAIN PROCESS (Node.js)                         |
-|                                                                         |
-|  [ FastMatcher Engine ]  <--->  [ Strict HTTPS / HSTS Engine ]           |
-|  - FastDomainTrie (O(1))        - RFC 6797 Preload Registry             |
-|  - 10k LRU Hot Cache            - Zero Insecure Fallback Enforcement    |
-|                                                                         |
-|  [ Isolated Session Controller ]                                        |
-|  - partition: 'memory:' (Zero Disk Leak Storage)                        |
-|  - WebRTC UDP Non-Proxied Leak Neutralizer                              |
-+------------------------------------+------------------------------------+
-                                     | IPC (contextBridge)
-                                     v
-+------------------------------------+------------------------------------+
-|               RENDERER 1           |             RENDERER 2             |
-|        (BrowserWindow Chrome)      |        (WebContentsView Content)   |
-|                                    |                                    |
-| - Custom Glassmorphism Toolbar     | - Injected Anti-Fingerprint Preload |
-| - Omnibox & URL Normalizer         |   * Canvas Noise Poisoning         |
-| - Live Privacy Shield Radar Popover|   * AudioContext Jitter            |
-| - Zero Node.js Access              |   * Screen & Navigator Normalizing |
-+------------------------------------+------------------------------------+
++-----------------------------------------------------------------------------+
+|                              PROCESS ARCHITECTURE                           |
+|                                                                             |
+|  [ Core Micro-Kernel ] (src/main.js)                                        |
+|         |                                                                   |
+|         v                                                                   |
+|  [ Nexus Master Engine ] (src/core/nexus.js)                                |
+|    +-- AegisHyperTrie (src/engine/hyper-trie.js)                            |
+|    +-- EntropyShield (src/engine/entropy-shield.js)                         |
+|    +-- GhostEngine (src/engine/ghost-engine.js)                             |
+|    +-- DohResolver (src/network/doh-resolver.js)                            |
+|    +-- EphemeralVault (src/storage/ephemeral-vault.js)                      |
+|    +-- AdaptiveRuntime (src/meta/adaptive-runtime.js)                       |
+|    +-- AegisAgent (src/agent/aegis-agent.js)                                |
+|                                                                             |
+|  [ Presentation Surface ]                                                   |
+|    +-- BrowserWindow Chrome (src/ui/chrome/preload.js, index.html)          |
+|    +-- WebContentsView Surface (src/ui/content/content-preload.js)          |
++-----------------------------------------------------------------------------+
 ```
 
-## 2. Core Pillars
+## 2. Mathematical Formulations
 
-### 2.1 O(1) Suffix Domain Trie Matching
-Instead of regex-based evaluation or linear array scans across 100,000+ domain entries, PrivacyBrowser implements `FastDomainTrie`. Domain labels are traversed in reverse order (`net` -> `doubleclick`), allowing sub-millisecond evaluation in $O(k)$ where $k$ is label depth ($k \le 4$).
+### 2.1 Bloom-Trie Hashing Projection
+The flat bitset filter projects an incoming domain string D into a 262,144-bit vector using three MurmurHash3 permutations with distinct coprime seeds:
 
-### 2.2 Strict HTTPS-Only & HSTS Enforcement
-HTTP connections are intercepted at the protocol layer and upgraded. Insecure form submissions (HTTPS -> HTTP POST) and mixed subresources are rejected with zero user bypass capabilities.
+$$h_1 = \text{Murmur3}(D, 0x9747b28c)$$
+$$h_2 = \text{Murmur3}(D, 0xcafebabe)$$
+$$h_3 = \text{Murmur3}(D, 0x1337c0de)$$
 
-### 2.3 DOM-Level Anti-Fingerprinting Shield
-Before any webpage JavaScript executes, `content-preload.js` seeds deterministic noise into Canvas exports, adds jitter to Web Audio samples, locks screen geometries to standard 1080p dimensions, and overrides WebRTC RTCPeerConnection to prevent local/public IP leakage.
+A candidate domain is immediately permitted if:
 
-### 2.4 Zero Storage Footprint
-All user sessions execute in private memory partitions (`partition: 'memory:'`). On exit, all caches, cookies, IndexedDB, and WebSQL entries are wiped from memory.
+$$\left(\text{Bitset}[h_1 \bmod M] \land \text{Bitset}[h_2 \bmod M] \land \text{Bitset}[h_3 \bmod M]\right) = 0$$
+
+### 2.2 Shannon Entropy Evaluation
+EntropyShield calculates the information density of domain labels and query tokens:
+
+$$H(X) = -\sum_{x \in X} P(x) \log_2 P(x)$$
+
+Where:
+- P(x) denotes the empirical probability of character occurrence within string X.
+- Tokens exhibiting H >= 3.4 with concurrent alphanumeric dispersion are flagged as algorithmic tracking signatures.
+
+## 3. Storage Enclave Isolation Model
+The EphemeralVault provisions transient storage blocks encrypted via AES-256-GCM. The primary master key resides exclusively in memory and undergoes cryptographic erasure (`Buffer.fill(0)`) upon application termination.

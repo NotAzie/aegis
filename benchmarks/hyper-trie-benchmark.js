@@ -17,7 +17,7 @@ trie.insert('google-analytics.com', 'tracker');
 trie.insert('facebook.net', 'tracker');
 trie.insert('scorecardresearch.com', 'tracker');
 const loadDuration = performance.now() - t0;
-console.log(`✓ Ingested in ${loadDuration.toFixed(2)}ms (${trie.ruleCount} unique nodes)\n`);
+console.log(`[PASS] Ingested in ${loadDuration.toFixed(2)}ms (${trie.ruleCount} unique nodes)\n`);
 
 const testQueries = [
   'doubleclick.net',
