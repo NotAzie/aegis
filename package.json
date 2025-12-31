@@ -1,25 +1,31 @@
 {
-  "name": "privacybrowser",
-  "version": "2.0.0",
-  "description": "Next-Gen Quantum Privacy Browser — O(1) AegisHyperTrie, Shannon Entropy Threat Detection, and Synthetic Ghost Cohorts",
-  "main": "src/main.js",
+  "name": "@aegis-protocol/core",
+  "version": "3.0.0",
+  "description": "Aegis Singularity Protocol — Universal Autonomous Web Sovereignty Infrastructure & SDK",
+  "main": "src/protocol/index.js",
+  "exports": {
+    ".": "./src/protocol/index.js",
+    "./nexus": "./src/core/nexus.js",
+    "./engine": "./src/engine/hyper-trie.js",
+    "./heuristic": "./src/engine/entropy-shield.js",
+    "./ghost": "./src/engine/ghost-engine.js"
+  },
   "scripts": {
-    "start": "electron .",
-    "test": "node tests/url-normalizer.test.js && node tests/hyper-trie.test.js && node tests/entropy-shield.test.js && node tests/ghost-engine.test.js && node tests/nexus-integration.test.js",
-    "bench": "node benchmarks/hyper-trie-benchmark.js && node benchmarks/entropy-benchmark.js",
-    "bench:hyper": "node benchmarks/hyper-trie-benchmark.js",
-    "bench:entropy": "node benchmarks/entropy-benchmark.js",
+    "start": "electron src/main.js",
+    "test": "node tests/url-normalizer.test.js && node tests/hyper-trie.test.js && node tests/entropy-shield.test.js && node tests/ghost-engine.test.js && node tests/nexus-integration.test.js && node tests/adaptive-runtime.test.js && node tests/agentic-loop.test.js",
+    "bench": "node benchmarks/hyper-trie-benchmark.js && node benchmarks/entropy-benchmark.js && node benchmarks/adaptive-benchmark.js",
     "dist": "electron-builder --dir"
   },
   "keywords": [
-    "privacy-browser",
-    "aegis",
+    "aegis-protocol",
+    "autonomous-agent",
+    "react-loop",
+    "adaptive-runtime",
     "bloom-trie",
     "shannon-entropy",
-    "synthetic-cohorts",
-    "anti-fingerprinting",
-    "zero-day-adblock",
-    "quantum-privacy"
+    "stealth-browser",
+    "puppeteer-stealth",
+    "zero-day-adblock"
   ],
   "author": "NotAzie <mazinullah317@gmail.com>",
   "license": "MIT",

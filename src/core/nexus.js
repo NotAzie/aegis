@@ -1,8 +1,8 @@
 /**
- * NexusCore — The Unified Hyper-Orchestration Engine for PrivacyBrowser V2
+ * NexusCore V3 — Singularity Engine Architecture
  *
- * Consolidates all subsystems (AegisHyperTrie, EntropyShield, GhostEngine,
- * StrictTransport, and MemoryPartition) into a single, cohesive, zero-debt architecture.
+ * Integrates AdaptiveRuntime self-healing loops and AegisAgent autonomous
+ * countermeasure dispatch into the core Electron browser lifecycle.
  */
 
 const { app, BrowserWindow, WebContentsView, ipcMain, session } = require('electron');
@@ -12,6 +12,8 @@ const fs = require('fs');
 const { AegisHyperTrie } = require('../engine/hyper-trie');
 const { EntropyShield } = require('../engine/entropy-shield');
 const { GhostEngine } = require('../engine/ghost-engine');
+const { AdaptiveRuntime } = require('../meta/adaptive-runtime');
+const { AegisAgent } = require('../agent/aegis-agent');
 
 const TOOLBAR_HEIGHT = 52;
 const DEFAULT_START_URL = 'file://' + path.join(app.getAppPath(), 'src', 'start.html').replace(/\\/g, '/');
@@ -21,6 +23,8 @@ class Nexus {
     this.hyperTrie = new AegisHyperTrie();
     this.entropyShield = new EntropyShield();
     this.ghostEngine = new GhostEngine();
+    this.adaptiveRuntime = new AdaptiveRuntime();
+    this.agent = new AegisAgent();
 
     this.mainWindow = null;
     this.webView = null;
@@ -37,7 +41,7 @@ class Nexus {
     this._initSession();
     this._createWindows();
     this._bindIpc();
-    console.log('[Nexus] V2 Engine ignited successfully.');
+    console.log('[Nexus] V3 Singularity Protocol ignited.');
   }
 
   _configureSwitches() {
@@ -65,7 +69,6 @@ class Nexus {
           if (l && !l.startsWith('#')) this.hyperTrie.insert(l, 'tracker');
         }
       }
-      console.log(`[Nexus] Loaded ${this.hyperTrie.ruleCount.toLocaleString()} rules into AegisHyperTrie.`);
     } catch (e) {
       console.warn('[Nexus] Blocklist load notice:', e.message);
     }
@@ -75,53 +78,60 @@ class Nexus {
     this.privacySession = session.fromPartition('memory:', { cache: false });
     this.privacySession.setPermissionRequestHandler((_wc, _perm, cb) => cb(false));
 
-    // Request interception pipeline
+    // Request interception with AdaptiveRuntime safeguard
     this.privacySession.webRequest.onBeforeRequest({ urls: ['<all_urls>'] }, (details, callback) => {
-      try {
-        const urlStr = details.url;
+      this.adaptiveRuntime.safeguard(
+        'request_interception',
+        () => {
+          const urlStr = details.url;
+          if (urlStr.startsWith('file://') || urlStr.startsWith('data:') || urlStr.startsWith('chrome:')) {
+            return callback({ cancel: false });
+          }
 
-        // Skip internal or data URLs
-        if (urlStr.startsWith('file://') || urlStr.startsWith('data:') || urlStr.startsWith('chrome:')) {
-          return callback({ cancel: false });
-        }
+          const url = new URL(urlStr);
+          const domain = url.hostname.toLowerCase();
 
-        const url = new URL(urlStr);
-        const domain = url.hostname.toLowerCase();
+          // 1. Strict HTTPS-Only
+          if (urlStr.startsWith('http://')) {
+            return callback({ redirectURL: urlStr.replace('http://', 'https://') });
+          }
 
-        // 1. Strict HTTPS-Only Upgrade
-        if (urlStr.startsWith('http://')) {
-          return callback({ redirectURL: urlStr.replace('http://', 'https://') });
-        }
+          // 2. EntropyShield Inspection
+          const entropyCheck = this.entropyShield.inspect(urlStr);
+          if (entropyCheck.suspicious) {
+            this.blockedCount++;
+            this.entropyThreatsBlocked++;
+            this.agent.processEvent({ type: 'HIGH_ENTROPY_BEACON', origin: url.origin, severity: 0.9 });
+            this._broadcastTelemetry(entropyCheck.reason);
+            return callback({ cancel: true });
+          }
 
-        // 2. EntropyShield Inspection (Zero-day & CNAME heuristic)
-        const entropyCheck = this.entropyShield.inspect(urlStr);
-        if (entropyCheck.suspicious) {
-          this.blockedCount++;
-          this.entropyThreatsBlocked++;
-          this._broadcastTelemetry(entropyCheck.reason);
-          return callback({ cancel: true });
-        }
+          // 3. AegisHyperTrie
+          if (this.hyperTrie.matches(domain)) {
+            this.blockedCount++;
+            this._broadcastTelemetry(`Blocked tracker/ad domain: ${domain}`);
+            return callback({ cancel: true });
+          }
 
-        // 3. AegisHyperTrie O(1) Rule Matching
-        if (this.hyperTrie.matches(domain)) {
-          this.blockedCount++;
-          this._broadcastTelemetry(`Blocked tracker/ad domain: ${domain}`);
-          return callback({ cancel: true });
-        }
+          // 4. Strip Tracking Params
+          const BAD_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid', 'msclkid', 'twclid', 'igshid'];
+          let modified = false;
+          for (let i = 0; i < BAD_PARAMS.length; i++) {
+            if (url.searchParams.has(BAD_PARAMS[i])) {
+              url.searchParams.delete(BAD_PARAMS[i]);
+              modified = true;
+            }
+          }
+          if (modified) {
+            return callback({ redirectURL: url.toString() });
+          }
 
-        // 4. Strip Tracking Query Parameters
-        const cleaned = this._stripTrackingParams(url);
-        if (cleaned !== urlStr) {
-          return callback({ redirectURL: cleaned });
-        }
-
-        callback({ cancel: false });
-      } catch (err) {
-        callback({ cancel: false });
-      }
+          callback({ cancel: false });
+        },
+        () => callback({ cancel: false }) // Safe zero-downtime fallback
+      );
     });
 
-    // Strip response fingerprint headers
     this.privacySession.webRequest.onHeadersReceived((details, callback) => {
       const headers = { ...details.responseHeaders };
       delete headers['etag'];
@@ -130,24 +140,13 @@ class Nexus {
     });
   }
 
-  _stripTrackingParams(url) {
-    const BAD_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid', 'msclkid', 'twclid', 'igshid'];
-    let modified = false;
-    for (let i = 0; i < BAD_PARAMS.length; i++) {
-      if (url.searchParams.has(BAD_PARAMS[i])) {
-        url.searchParams.delete(BAD_PARAMS[i]);
-        modified = true;
-      }
-    }
-    return modified ? url.toString() : url.toString();
-  }
-
   _broadcastTelemetry(reason) {
     if (this.mainWindow && !this.mainWindow.isDestroyed()) {
       this.mainWindow.webContents.send('nexus-telemetry', {
         blockedCount: this.blockedCount,
         entropyThreats: this.entropyThreatsBlocked,
-        recentBlockedReason: reason
+        recentBlockedReason: reason,
+        adaptiveMode: this.adaptiveRuntime.evaluateRuntimeStrategy()
       });
     }
   }
@@ -199,7 +198,6 @@ class Nexus {
     this.mainWindow.on('resize', resizeView);
     this.webContents.loadURL(DEFAULT_START_URL);
 
-    // Navigation events
     this.webContents.on('did-finish-load', () => {
       if (this.mainWindow && !this.mainWindow.isDestroyed()) {
         this.mainWindow.webContents.send('nav-state', {
@@ -211,10 +209,9 @@ class Nexus {
       }
     });
 
-    // Handle Certificate Errors
-    app.on('certificate-error', (event, _wc, url, _err, _cert, cb) => {
+    app.on('certificate-error', (event, _wc, _url, _err, _cert, cb) => {
       event.preventDefault();
-      cb(false); // Reject always
+      cb(false);
     });
   }
 
@@ -240,7 +237,7 @@ class Nexus {
       await this.privacySession.clearStorageData();
       await this.privacySession.clearCache();
     }
-    console.log('[Nexus] Clean zero-leak shutdown complete.');
+    console.log('[Nexus] V3 Clean Singularity shutdown complete.');
   }
 }
 

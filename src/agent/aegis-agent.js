@@ -33,16 +33,16 @@ class AegisAgent {
     const thoughts = [];
     const plannedActions = [];
 
-    if (event.type === 'AGGRESSIVE_FINGERPRINT_BURST' || observation.severity > 0.8) {
+    if (event.type === 'HIGH_ENTROPY_BEACON') {
+      thoughts.push(`Zero-day high entropy payload identified in "${observation.origin}". Deploying synthetic canvas poison vector.`);
+      plannedActions.push({ tool: 'injectPoisonVector', args: [observation.origin, 0x1337c0de] });
+    } else if (event.type === 'AGGRESSIVE_FINGERPRINT_BURST' || observation.severity > 0.8) {
       thoughts.push(`Hostile fingerprint probe detected from "${observation.origin}". Initiating active origin isolation and honeytoken deployment.`);
       plannedActions.push({ tool: 'isolateOrigin', args: [observation.origin] });
       plannedActions.push({ tool: 'deployHoneyToken', args: [observation.origin, 'aegis_anti_fingerprint_shield'] });
     } else if (event.type === 'BOUNCE_TRACKER_CHAIN') {
       thoughts.push(`Bounce redirect tracking chain intercepted for "${event.url}". Neutralizing intermediate hops.`);
       plannedActions.push({ tool: 'suppressBounceTracking', args: [event.url] });
-    } else if (event.type === 'HIGH_ENTROPY_BEACON') {
-      thoughts.push(`Zero-day high entropy payload identified in "${observation.origin}". Deploying synthetic canvas poison vector.`);
-      plannedActions.push({ tool: 'injectPoisonVector', args: [observation.origin, 0x1337c0de] });
     }
 
     // 3. Act
@@ -65,7 +65,7 @@ class AegisAgent {
 
     this.memoryLog.push(decisionRecord);
     if (this.memoryLog.length > 500) {
-      this.memoryLog.shift(); // Bound internal memory trace
+      this.memoryLog.shift();
     }
 
     return decisionRecord;
